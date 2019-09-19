@@ -47,6 +47,8 @@ function query(){
             }
             else{
                 console.log("Completing your purchase!");
+                let pricetotal = search.purchaseAmount * res[0].price;
+                console.log("Your total comes to: $" + pricetotal);
                 let newstock = parseInt(res[0].stock_quantity) - parseInt(search.purchaseAmount);
                 updateProduct(search.itemSearch, newstock);
             }
@@ -69,7 +71,7 @@ function updateProduct(test, stockamount) {
     ],
     function(err, res) {
       if (err) throw err;
-      console.log(res.affectedRows + " products updated!\n");
+      console.log("Purchase Complete, Stock has been updated");
       connection.end();
     }
   );
