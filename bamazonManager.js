@@ -30,7 +30,7 @@ function query(){
             type: "list",
             name: "activity",
             message: "What is the task you would like to complete?",
-            choices: ["View Products for Sale", new inquirer.Separator(),"View Low Inventory", new inquirer.Separator, "Add New Product"],
+            choices: ["View Products for Sale", new inquirer.Separator(),"View Low Inventory",new inquirer.Separator, "Add to Inventory",new inquirer.Separator, "Add New Product"],
         },
     ]).then(function(search) {
         if(search.activity === "View Products for Sale"){
@@ -116,13 +116,18 @@ function addNewProduct(){
             message: "How many are you adding to the stock?",
         }
     ]).then(function(search) {
-        connection.query('INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ('+ search.productname + "," + search.department + "," + search.priceofItem + "," + search.stockAmount + ")"), function (err,result){
+        connection.query('INSERT INTO products set ?',{
+            product_name: search.productname,
+            department_name: search.department,
+            price: search.priceofItem,
+            stock_quantity : search.stockAmount
+        }, function (err,result){
             if(err) throw err;
             console.log("Your Item has been Successfully added");
             connection.end();
         }
-    })
-}
+    )})}
+    
 
 function addToInventory(){
     inquirer.prompt([  
@@ -137,8 +142,12 @@ function addToInventory(){
             message: "How many would you like to add to the stock?"
         }
     ]).then(function(search) {
-        connection.query('SELECT * FROM PRODUCTS WHERE ?', {id: search.itemSearch}, function(err,res) {
+        connection.query('SELECT * FROM PRODUCTS WHERE ?', {id: search.productID}, function(err,res) {
             if (err) throw err;
+            if(res === undefined || res === null){
+                console.log("Item does not exist");
+                connection.end();
+            }
             let total = res[0].stock_quantity + search.amountToAdd;
             connection.query('UPDATE products SET ? WHERE ?', [{stock_quantity: total}, {ID: search.productID}], function(err,res) {
                 if (err) throw err;
