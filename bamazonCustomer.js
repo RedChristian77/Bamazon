@@ -59,7 +59,7 @@ function query(){
 }
 
 function updateProduct(test, stockamount) {
-  let query = connection.query(
+  connection.query(
     "UPDATE products SET ? WHERE ?",
     [
       {
