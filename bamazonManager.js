@@ -69,7 +69,7 @@ function viewProducts(){
 //function for viewing items with 5 or less items
 function viewLowInventory(){
     //Database query for all items less then 5 left in stock
-    connection.query('SELECT * FROM products WHERE ?', [stock_quantity < 5], function(err,res){
+    connection.query('SELECT * FROM products WHERE stock_quantity <= 5', function(err,res){
         if(err) throw err;
         //For if their is nothing in low inventory
         if(res.length < 1){
@@ -78,6 +78,7 @@ function viewLowInventory(){
         else{
             //If their is an item low on inventory
             console.log("Start of Low Inventory List");
+            console.log("----------------------------------------");
             res.forEach(item => {
                 console.log("Item ID: " + item.id);
                 console.log("Product Name: "+item.product_name);
