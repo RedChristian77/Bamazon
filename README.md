@@ -25,3 +25,7 @@ This will be used for restocking said items, which requires the ID of the item b
 
 #### Add New Product
 This will use inquirer as well and ask for all the information on the new item being added to the database as well.
+
+
+For a video demonstration of the applications a link to the download is located in the videos folder or
+click here for the link it as well https://github.com/RedChristian77/Bamazon/blob/master/Videos/Sep%2019%202019%208_46%20PM.webm
